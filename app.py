@@ -14,7 +14,7 @@ st.sidebar.header("🔍 筛选条件")
 max_pe = st.sidebar.slider("📌 最大市盈率 (PE)", 5, 30, 20)
 
 # --- 从 SQLite 读取数据 ---
-conn = sqlite3.connect(r"C:\Users\licz\stock_analysis\a_stock.db")
+
 df_all = pd.read_sql_query(
     f"SELECT stock_code, stock_name, pe, volume FROM a_stock_data WHERE pe <= {max_pe}",
     conn
@@ -24,7 +24,7 @@ conn.close()
 if df_all.empty:
     st.warning("⚠️ 当前没有符合条件的股票，请调整筛选条件。")
     st.stop()
-
+conn = sqlite3.connect("a_stock.db")
 df_all.columns = ["代码", "名称", "PE", "成交额(万元)"]
 
 # --- 多选框选择股票 ---
